@@ -1,16 +1,13 @@
-FROM python:3.10-slim AS builder
-
-WORKDIR /app
-COPY exporter.py start.sh prometheus.yml ./
-RUN pip install flask requests && chmod +x start.sh
-
-# Final image based on Prometheus
-FROM prom/prometheus:latest
-
-COPY --from=builder /app /app
+FROM python:3.10-slim
 
 WORKDIR /app
 
-EXPOSE 8000 9090
+COPY exporter.py prometheus.yml ./
+RUN pip install flask requests
 
-ENTRYPOINT ["sh", "/app/start.sh"]
+# Also copy prometheus.yml to a shared volume path
+RUN mkdir -p /shared && cp prometheus.yml /shared/prometheus.yml
+
+EXPOSE 8000
+
+CMD ["python", "exporter.py"]

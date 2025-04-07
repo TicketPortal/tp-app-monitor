@@ -15,13 +15,25 @@
 
 ```
 services:
-  prometheus:
+  exporter:
     image: spectado/tp-app-monitor
+    volumes:
+      - prometheus-config:/shared
+
+  prometheus:
+    image: prom/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - prometheus-config:/etc/prometheus
 
   grafana:
     image: grafana/grafana
     ports:
       - "3000:3000"
+
+volumes:
+  prometheus-config:
 ```
 
 ## grafana queries
