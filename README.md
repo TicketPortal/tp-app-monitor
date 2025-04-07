@@ -23,9 +23,9 @@ services:
   prometheus:
     image: prom/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/shared/prometheus.yml'
     volumes:
-      - prometheus-config:/etc/prometheus
+      - prometheus-config:/shared
 
   grafana:
     image: grafana/grafana
