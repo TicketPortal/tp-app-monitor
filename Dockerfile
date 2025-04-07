@@ -1,7 +1,7 @@
 FROM python:3.10-slim AS builder
 
 WORKDIR /app
-COPY exporter.py urls.json start.sh prometheus.yml ./
+COPY exporter.py start.sh prometheus.yml ./
 RUN pip install flask requests && chmod +x start.sh
 
 # Final image based on Prometheus
@@ -13,4 +13,4 @@ WORKDIR /app
 
 EXPOSE 8000 9090
 
-ENTRYPOINT ["/app/start.sh"]
+ENTRYPOINT ["sh", "/app/start.sh"]
