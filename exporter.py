@@ -5,7 +5,7 @@ import threading
 import json
 import os
 
-CONFIG_PATH = os.environ.get("URLS_FILE", "/config/urls.json")
+CONFIG_PATH = "/app/urls.json"
 INTERVAL = 15
 
 metrics = {}

@@ -1,12 +1,20 @@
-FROM python:3.10-slim
+FROM python:3.10-slim AS builder
+
+# Set up exporter
+WORKDIR /app
+COPY exporter.py urls.json start.sh prometheus.yml ./
+RUN pip install flask requests \
+ && chmod +x start.sh
+
+# Final image with Prometheus included
+FROM prom/prometheus:latest
+
+COPY --from=builder /app /app
 
 WORKDIR /app
 
-COPY exporter.py .
-COPY prometheus.yml /etc/prometheus/prometheus.yml
+ENV URLS_FILE=/app/urls.json
 
-RUN pip install flask requests
+EXPOSE 8000 9090
 
-EXPOSE 8000
-
-CMD ["python", "exporter.py"]
+CMD ["./start.sh"]

@@ -20,18 +20,11 @@
 ## docker-compose.yaml
 
 ```
-version: '3'
-
 services:
-  exporter:
+  prometheus:
     image: spectado/tp-app-monitor
     volumes:
-      - ./urls.json:/config/urls.json
-    environment:
-      - URLS_FILE=/config/urls.json
-
-  prometheus:
-    image: prom/prometheus
+      - ./urls.json:/app/urls.json
 
   grafana:
     image: grafana/grafana
