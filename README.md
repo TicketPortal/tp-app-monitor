@@ -13,8 +13,7 @@
 
 ```
 [
-  "https://o2arena.tpapp.cz/probe/services",
-  "https://example.com/another-instance"
+  "https://o2arena.tpapp.cz/probe/services"
 ]
 ```
 
@@ -25,9 +24,7 @@ version: '3'
 
 services:
   exporter:
-    build: .
-    ports:
-      - "8000:8000"
+    image: spectado/tp-app-monitor
     volumes:
       - ./urls.json:/config/urls.json
     environment:
@@ -35,10 +32,6 @@ services:
 
   prometheus:
     image: prom/prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
 
   grafana:
     image: grafana/grafana
